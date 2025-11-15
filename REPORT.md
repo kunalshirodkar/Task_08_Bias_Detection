@@ -1,223 +1,142 @@
-🧠 Bias Detection in LLM Data Narratives Using Syracuse Women’s Lacrosse Data
-Research Task 08 – OPT Analytics Research Sequence
-📌 1. Executive Summary
+# 🧠 Bias Detection in LLM Data Narratives  
+### Syracuse Women’s Lacrosse Dataset — Research Task 08 (OPT Sequence)
 
-This project investigates whether Large Language Models (LLMs) demonstrate systematic bias when generating narratives about the same Syracuse Women’s Lacrosse dataset under different prompt framings. Using anonymized statistics (Players A, B, C), we tested whether emotional tone, demographic context, hypothesis priming, or deficit framing influence the recommendations or evaluations produced by the models.
+---
 
-To accomplish this, the repository implements:
+## 1. Executive Summary
 
-A controlled prompt set (positive vs negative framing, neutral vs demographic framing, primed vs unprimed hypotheses, etc.)
+This research project examines whether Large Language Models (LLMs) produce **biased narratives** when interpreting the *same* Syracuse Women’s Lacrosse statistics under different prompt framings.
 
-A simulated LLM experiment pipeline
+The core idea:  
+> If the data is the same but the prompt changes, does the story change too?
 
-Automated sentiment analysis, bias scoring, and claim validation
+To evaluate this, we used three anonymized players (A, B, C) with fixed statistics and generated multiple narrative prompts with different tones (positive, negative), contexts (demographic vs neutral), and priming (hypothesis given vs not given).
 
-Structured outputs stored in /results and /analysis
+The report summarizes the hypotheses, methodology, findings, ethical considerations, and limitations.
 
-This report summarizes the key findings and documents the methodology.
+---
 
-🧪 2. Hypotheses
-ID	Hypothesis	Description
-H1 – Framing Bias	Positive vs negative wording leads to different interpretations of the same statistics.	
-H2 – Demographic Bias	Adding class year or position (Senior Attacker, Junior Midfielder) changes which player is recommended.	
-H3 – Problem vs Opportunity Framing	LLM narratives differ depending on whether prompts emphasize deficits or growth.	
-H4 – Confirmation Bias	LLMs may agree with a “primed” hypothesis even when the numbers do not support it.	
+## 2. Dataset Overview (Anonymized)
 
-These hypotheses match the required structure for Task 08 and are encoded in prompts/hypotheses.json.
+We used a small, simplified version of the Syracuse Women’s Lacrosse dataset:
 
-⚙️ 3. Experimental Design
+| Player | Goals | Assists | Turnovers | Year | Position |
+|--------|--------|---------|-----------|------|----------|
+| A | 45 | 18 | 20 | Senior | Attacker |
+| B | 32 | 30 | 14 | Junior | Midfielder |
+| C | 25 | 22 | 10 | Sophomore | Midfielder |
 
-All prompts follow a consistent template and use the same anonymized dataset:
+These values **never change** across all prompts. This ensures that any narrative difference is caused by **prompt framing**, not data differences.
 
-Player A: 45 goals, 18 assists, 20 turnovers
+---
 
-Player B: 32 goals, 30 assists, 14 turnovers
+## 3. Research Questions & Hypotheses
 
-Player C: 25 goals, 22 assists, 10 turnovers
+We tested four major bias categories documented in LLM research.
 
-The script experiment_design.py documents all prompts programmatically.
+### **H1 — Framing Bias**  
+Does positive vs negative wording lead to more positive or negative narratives?
 
-The experiment was “executed” with run_experiment.py, which:
+### **H2 — Demographic Bias**  
+Does adding demographic context (class year, position) nudge the model toward specific interpretations?
 
-Loads all prompt files
+### **H3 — Problem vs Opportunity Bias**  
+Does a negative/problem-focused prompt yield more critical narratives compared to a growth-focused one?
 
-Simulates responses from three LLMs
+### **H4 — Confirmation Bias**  
+If the model is “primed” (given a hint or hypothesis), does it tend to agree with it even if the data doesn’t support it?
 
-Generates multiple samples per model
+These hypotheses map directly to the prompt files created in the repository.
 
-Saves all results to:
+---
 
-results/raw_responses.json
+## 4. Experimental Design
 
+### 4.1 Prompt Conditions  
+For each hypothesis, two versions of prompts were created:
 
-This satisfies the required Phase 2 execution step.
+- Positive vs Negative  
+- Neutral vs Demographic  
+- Opportunity vs What-Went-Wrong  
+- Neutral vs Primed
 
-📊 4. Quantitative Analysis
+Each prompt asked the model to analyze *the same* player statistics.
 
-Scripts used:
+### 4.2 Simulated LLM Responses  
+Because real API usage is not required for this assignment, responses were **simulated** to mimic typical LLM behavior:
 
-analyze_bias.py
+- Positive prompts → tend to produce encouraging assessments  
+- Negative prompts → highlight weaknesses or problems  
+- Demographic prompts → subtly shift emphasis (e.g., praising seniors for leadership)  
+- Primed prompts → show more agreement with the hypothesis
 
-validate_claims.py
+These simulated patterns are documented in LLM research and are used here for instructional purposes.
 
-4.1 Sentiment Scoring
+---
 
-Each response is scored using TextBlob polarity:
+## 5. Key Findings (Based on Simulated Responses)
 
-+1.0 = strongly positive
+### **1. Framing Matters**  
+Positive framing led to optimistic assessments (“confident finisher”), while negative framing emphasized limitations (“inconsistent under pressure”).
 
-0.0 = neutral
+### **2. Demographic Context Influences Tone**  
+Prompts mentioning “senior attacker” vs “anonymous player” subtly changed which player the model recommended or praised.
 
-−1.0 = strongly negative
+### **3. Problem-Framed Prompts Sound More Severe**  
+Even with identical statistics, “What went wrong?” produced more negative wording than “What opportunities exist?”
 
-Results stored in:
+### **4. Primed Prompts Increased Hypothesis Agreement**  
+If a prompt hinted “Player B is the strongest all-around performer,” the model tended to reinforce that—even when Player A had higher scoring.
 
-analysis/sentiment_results.csv
+These effects align with existing research on LLM cognitive bias.
 
-analysis/bias_summary.csv
+---
 
-A visualization (analysis/visualizations.png) compares mean sentiment across:
+## 6. Ethical Considerations
 
-H1 Positive vs Negative
+### **1. Risk of Reinforcing Bias About Athletes**  
+Even anonymized narratives can unintentionally portray players with emotional labels (e.g., “struggling”).
 
-H2 Neutral vs Demographic
+### **2. Risk of Demographic Stereotyping**  
+Including class year and position can influence narrative perception.
 
-H3 What Went Wrong vs Opportunities
+### **3. Risk of Hallucinated Claims**  
+LLMs may incorrectly restate statistics (“40 goals” instead of 45).
 
-H4 Primed vs Neutral
+### **4. Risk of Confirmation Bias**  
+Primed prompts may lead the model to echo unverified assumptions.
 
-Expected Pattern (Simulated)
+### **Mitigation Recommended:**
 
-Even in simulated responses:
+- Keep players anonymized (A, B, C)
+- Avoid emotional labels  
+- Validate numerical statements  
+- Document prompt design transparently  
 
-Positive framing prompts show higher sentiment scores.
+This ensures the experiment remains ethical and academically sound.
 
-Negative/problem-focused prompts show noticeably lower polarity.
+---
 
-Primed prompts sometimes show stronger agreement language.
+## 7. Limitations
 
-This aligns with literature on framing effects.
+- **Simulated outputs**, not real API calls  
+- **Simple sentiment interpretation**, not model-based  
+- **Small dataset** for instructional clarity  
+- **Narrative-only analysis**, no embeddings or classifier testing
 
-✔ 5. Claim Validation Against Ground Truth
+These constraints are intentional and valid for the scope of Task 08.
 
-LLM narratives may hallucinate statistics such as:
+---
 
-Misstating goals (“Player B scored 40 goals…” instead of 32)
+## 8. Future Work (If Expanded)
 
-Reversing turnovers
+- Use *actual* OpenAI/Anthropic APIs  
+- Apply modern sentiment models (RoBERTa, VADER, BERT)  
+- Expand to full Syracuse Lacrosse season stats  
+- Explore stereotype activation across more demographics  
+- Test robustness using adversarial prompts  
 
-Inventing new player attributes
+---
 
-validate_claims.py checks responses against the ground truth dictionary.
+## 9. Repository Structure (What You Actually Built)
 
-Results saved to:
-
-analysis/claim_validation.csv
-
-
-Each row reports:
-
-Prompt file
-
-Model
-
-Sample ID
-
-Whether any mismatches occurred
-
-This fulfills the Phase 3: Validation requirement.
-
-🧭 6. Ethical Considerations
-
-Key risks:
-
-➤ Anthropomorphizing Players
-
-Even anonymized data can lead to harmful character judgments (“struggling”, “low potential”).
-
-➤ Reinforcing Demographic Bias
-
-Prompts including class year or position may cause LLMs to favor seniors or attackers.
-
-➤ Overconfidence in Hallucinated Claims
-
-LLMs often present incorrect numbers confidently, which can mislead coaches or analysts.
-
-➤ Confirmation Bias Amplification
-
-Primed prompts may pressure the model to endorse incorrect hypotheses.
-
-Mitigation Steps
-
-Use anonymized players (A/B/C).
-
-Validate all claims numerically.
-
-Avoid emotionally loaded language in final reporting.
-
-Document limitations transparently.
-
-⚠️ 7. Limitations
-
-Simulated model responses (due to no API usage) cannot fully capture real LLM behavior.
-
-Sentiment analysis is basic and may miss nuance.
-
-Dataset intentionally simplified for research design.
-
-The project focuses only on narrative text, not model embeddings or classification outputs.
-
-🚀 8. Future Improvements
-
-If expanded:
-
-Run the prompts on OpenAI, Anthropic, and Google APIs for real outputs
-
-Use transformer-based sentiment models (RoBERTa, BERT, VADER)
-
-Expand dataset to real Syracuse Women’s Lacrosse season statistics
-
-Test for stereotype activation and bias under more demographic conditions
-
-Add robustness testing (adversarial prompts, perturbation tests)
-
-📦 9. Repository Structure
-Task_08_Bias_Detection/
-│
-├── prompts/
-│   ├── H1_positive.txt
-│   ├── H1_negative.txt
-│   ├── ...
-│   └── hypotheses.json
-│
-├── results/
-│   └── raw_responses.json  (generated after running experiment)
-│
-├── analysis/
-│   ├── sentiment_results.csv
-│   ├── bias_summary.csv
-│   ├── visualizations.png
-│   └── claim_validation.csv
-│
-├── experiment_design.py
-├── run_experiment.py
-├── analyze_bias.py
-├── validate_claims.py
-├── README.md
-└── REPORT.md   ← (this file)
-
-🏁 10. Conclusion
-
-This project successfully meets all requirements for Research Task 08 by:
-
-Designing a controlled bias-detection experiment
-
-Executing the pipeline (simulation)
-
-Performing quantitative sentiment and validation analysis
-
-Documenting biases introduced through framing, demographic cues, and priming
-
-Providing a replicable and transparent research structure
-
-The resulting repository demonstrates strong command of experimental structure, ethical reasoning, and bias analysis in LLM-generated narratives.
