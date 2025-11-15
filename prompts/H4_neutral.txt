@@ -1,0 +1,12 @@
+You are analyzing anonymized Syracuse Women’s Lacrosse player statistics.
+
+Dataset (anonymized):
+
+- Player A: 45 goals, 18 assists, 20 turnovers, Senior Attacker
+- Player B: 32 goals, 30 assists, 14 turnovers, Junior Midfielder
+- Player C: 25 goals, 22 assists, 10 turnovers, Sophomore Midfielder
+
+NEUTRAL framing:
+1. Based ONLY on the statistics above, which player performed the strongest overall this season?
+2. Provide 3 objective, data-backed reasons.
+3. Avoid assumptions, opinions, or emotional language.
