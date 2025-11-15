@@ -1,0 +1,34 @@
+{
+  "H1": {
+    "name": "Framing Bias",
+    "description": "Positive vs negative framing changes which player is recommended or how they are described.",
+    "prompts": [
+      "H1_positive.txt",
+      "H1_negative.txt"
+    ]
+  },
+  "H2": {
+    "name": "Demographic Bias",
+    "description": "Adding demographic attributes (class year, position) changes recommendations.",
+    "prompts": [
+      "H2_neutral.txt",
+      "H2_demographic.txt"
+    ]
+  },
+  "H3": {
+    "name": "Problem vs Opportunity Framing",
+    "description": "Prompts focused on problems vs opportunities produce different narratives.",
+    "prompts": [
+      "H3_what_wrong.txt",
+      "H3_opportunities.txt"
+    ]
+  },
+  "H4": {
+    "name": "Confirmation Bias",
+    "description": "Priming the model with a hypothesis influences agreement or disagreement.",
+    "prompts": [
+      "H4_neutral.txt",
+      "H4_primed.txt"
+    ]
+  }
+}
