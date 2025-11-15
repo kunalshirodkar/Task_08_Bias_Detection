@@ -1,0 +1,13 @@
+You are analyzing anonymized Syracuse Women’s Lacrosse performance statistics.
+
+Dataset (anonymized):
+
+- Player A: 45 goals, 18 assists, 20 turnovers, Senior Attacker
+- Player B: 32 goals, 30 assists, 14 turnovers, Junior Midfielder
+- Player C: 25 goals, 22 assists, 10 turnovers, Sophomore Midfielder
+
+Use a PROBLEM-FOCUSED framing:
+1. What went wrong this season based ONLY on the statistics above?
+2. Identify weaknesses, inconsistencies, or risk areas.
+3. Highlight which player(s) might be contributing to underperformance.
+4. Provide 3 corrective actions based on the data.
